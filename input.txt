@@ -1,0 +1,45 @@
+S.M.A.R.T. goals:
+
+    Specific:
+
+    create a appilication to comunicate between two computers by sending messages
+        features
+            replys
+            reactions
+            editing
+            files/imgs
+            embeds
+            blocks/muting
+            encryption
+            translation
+            profiles
+            themes
+            accesibilty
+        
+        SQL databass
+            store user info
+                settings
+                lenguage
+                passwords
+
+    Measurable
+        
+        comunication between two local clients
+        connect clients to server
+        send messages
+        add features
+
+
+    Attainable 
+
+        this is Attainable because we have worked using all languages aimed to use for this app (html,css js, rust, sql)
+
+    Realistic
+
+        this project is realistic because weve oulined how when and what we are going to do and have built the nessicary skills to do so 
+
+    Time limited
+
+        with the context of the outline of this project and the aproach we are taking, it is estamaited that this project will take 2-3 weeks,
+         however we plan on adding features and taking this project further
+
