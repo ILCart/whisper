@@ -1,4 +1,4 @@
-debug/
-target/
+whisper-server/target/
+whisper-server/target/debug/
 **/*.rs.bk
 *.pdb
