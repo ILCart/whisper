@@ -1,5 +1,5 @@
-C:\Users\Isaac\Documents\Github\whisper\whisper-server\target\debug\build\windows_x86_64_msvc-d86b27912743a296\build_script_build-d86b27912743a296.exe: C:\Users\Isaac\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs
+C:\Users\kaide\OneDrive\Documents\GitHub\whisper\whisper-server\target\debug\build\windows_x86_64_msvc-d86b27912743a296\build_script_build-d86b27912743a296.exe: C:\Users\kaide\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs
 
-C:\Users\Isaac\Documents\Github\whisper\whisper-server\target\debug\build\windows_x86_64_msvc-d86b27912743a296\build_script_build-d86b27912743a296.d: C:\Users\Isaac\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs
+C:\Users\kaide\OneDrive\Documents\GitHub\whisper\whisper-server\target\debug\build\windows_x86_64_msvc-d86b27912743a296\build_script_build-d86b27912743a296.d: C:\Users\kaide\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs
 
-C:\Users\Isaac\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs:
+C:\Users\kaide\.cargo\registry\src\index.crates.io-6f17d22bba15001f\windows_x86_64_msvc-0.48.5\build.rs:
