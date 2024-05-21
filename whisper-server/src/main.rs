@@ -4,6 +4,9 @@ extern crate ws;
 
 use ws::{listen, CloseCode, Handler, Handshake, Message, Request, Response, Result, Sender};
 use uuid::Uuid;
+use serde_json;
+use serde::{Serialize, Deserialize};
+
 struct Server {
     out: Sender,
     clients: Vec<Client>,
@@ -13,6 +16,7 @@ struct Server {
 struct Client{
     uuid: Uuid,
 }
+
 
 
 
