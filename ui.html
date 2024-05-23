@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,12 +28,23 @@
 </head>
 
 <body class="ui-body">
-    <ul id="messages"></ul>
-  
-    <form id="message-form" action="#" method="post" class="ui-form">
-      <textarea id="message" placeholder="Write your message here..." required></textarea>
-      <button type="submit">Send Message</button>
-      <button type="button" id="close">Close Connection</button>
-    </form>
+
+
+
+    <section class="ui-msg">
+        <section class="ui-msg-history">
+
+        </section>
+        <section class="ui-msg-text-bar">
+            <form id="message-form" action="#" method="post" class="ui-form small-open-sans">
+                <input id="message" placeholder="Write your message here..." required></input>
+                <button type="submit">Send Message</button>
+                <button type="button" id="close">Close Connection</button>
+            </form>
+        </section>
+
+    </section>
+    <section class="ui-users"></section>
 </body>
+
 </html>

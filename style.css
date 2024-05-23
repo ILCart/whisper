@@ -136,7 +136,7 @@
 
 /* ui */
 
-.ui-body .ui-form{
+.ui-body{
     height: 99dvh;
     display: flex;
     flex-direction: column;
@@ -144,3 +144,98 @@
     justify-content: center;
 }
 
+.ui-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(85, 92, 100);
+    background: linear-gradient(283deg, rgb(98, 105, 114) 0%, rgba(30, 33, 36, 1) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100dvh;
+}
+
+.ui-msg {
+    padding-top: 2dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 98dvw;
+    height: 86dvh;
+    border-radius: 1dvw;
+    background-color: rgba(30, 33, 36, 1);
+    margin-bottom: .8dvw;
+}
+
+.ui-users {
+    width: 98dvw;
+    height: 10dvh;
+    border-radius: 1dvw;
+    background-color: rgba(30, 33, 36, 1);
+}
+
+.ui-msg-history {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;  
+    overflow-y: scroll;
+    width: 95dvw;
+    height: 75dvh;
+    border-radius: 1dvw;
+    background-color: rgb(19, 21, 23);
+    padding-inline: .8dvw;
+    padding-bottom: .5dvw;
+}
+
+.ui-form {
+    margin-top: 1dvw;
+    width: 95dvw;
+}
+
+.ui-form input {
+    
+    font-size:.8dvw;
+    height: 4dvh;
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0);
+    border: .1dvw solid rgb(19, 21, 23);
+    border-radius: .3dvw;
+    color: rgb(228, 228, 228);
+    text-decoration: none;
+}
+
+.ui-form input:focus {
+    outline: none;
+}
+
+.ui-form button {
+    
+    font-size:.8dvw;
+    width: 8%;
+    height: 3dvh;
+    color: rgb(193, 193, 193);
+    border-radius: .3dvw;
+    margin-left: 1.5dvw;
+    background-color: rgb(19, 21, 23);
+    border: none;
+
+}
+
+.ui-bubble {
+    width: fit-content;
+    padding-inline: 1dvw;
+    padding-block: .2dvw;
+    color: rgb(142, 142, 142);
+    border-radius: .3dvw;
+}
+
+.self {
+    align-self: flex-start;
+    background-color: rgb(64, 69, 75);
+}
+
+.outside {
+    align-self: flex-end;
+    background-color: rgb(45, 49, 53);
+}
