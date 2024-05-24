@@ -179,7 +179,6 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;  
-    overflow-y: scroll;
     width: 95dvw;
     height: 75dvh;
     border-radius: 1dvw;
@@ -227,7 +226,12 @@
     padding-inline: 1dvw;
     padding-block: .2dvw;
     color: rgb(142, 142, 142);
-    border-radius: .3dvw;
+    border-radius: .4dvw;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    margin-top: 1dvw;
 }
 
 .self {

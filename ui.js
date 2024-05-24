@@ -1,48 +1,58 @@
-// window.onload = function() {
+window.onload = function() {
 
-//     var form = document.getElementById('message-form');
-//     var messageField = document.getElementById('message');
-//     var closeBtn = document.getElementById('close');
+    var form = document.getElementById('message-form');
+    var messageField = document.getElementById('message');
+    var closeBtn = document.getElementById('close');
+    let uuid;
 
-//     var socket = new WebSocket('ws://127.0.0.1:3001/ws');
+    var socket = new WebSocket('ws://127.0.0.1:3001/ws');
 
-//     socket.onerror = function(error) {
-//       console.log('WebSocket Error: ' + error);
-//     };
+    socket.onerror = function(error) {
+      console.log('WebSocket Error: ' + error);
+    };
 
-//     socket.onopen = function(event) {
-//         console.log('open');
-//     };
+    socket.onopen = function(event) {
+        console.log('open');
+    };
 
-//     socket.onmessage = function(event) {
-//         console.log(event.data);
-//     };
+    socket.onmessage = function(event) {
+      if (uuid == null) {
+        uuid = JSON.parse(event.data).uuid;
+      }
+        console.log(event);
+    };
 
-//     socket.onclose = function(event) {
-//         console.log('open');
-//     };
+    socket.onclose = function(event) {
+        console.log('open');
+    };
 
-//     form.onsubmit = function(e) {
-//       e.preventDefault();
+    form.onsubmit = function(e) {
+      e.preventDefault();
 
-//       var message = messageField.value;
+      var message = messageField.value;
 
-//       socket.send(message);
+      new_message("self", message);
 
-//       messageField.value = '';
+      let data = {"uuid": uuid, "data": {"event": "SEND_MESSAGE", "payload": message}};
 
-//       return false;
-//     };
+      console.log("sent:\n", data);
 
-//     closeBtn.onclick = function(e) {
+      socket.send( JSON.stringify(data));
 
-//       e.preventDefault();
-//       socket.close();
+      messageField.value = '';
 
-//       return false;
-//     };
+      return false;
+    };
 
-//   };
+    closeBtn.onclick = function(e) {
+
+      e.preventDefault();
+      socket.close();
+
+      return false;
+    };
+
+  };
 
 
 function new_message(type, msg) {
