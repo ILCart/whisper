@@ -4,9 +4,9 @@ extern crate ws;
 
 use std::collections::HashSet;
 
-use events::{recive_message, send_message};
+use events::{send_message};
 use serde::{Deserialize, Serialize};
-use serde_json::{self, json, Value};
+use serde_json::{self, json};
 use uuid::Uuid;
 use ws::{
     listen, CloseCode, Handler, Handshake, Message, Request, Response, Result as ws_result, Sender,
