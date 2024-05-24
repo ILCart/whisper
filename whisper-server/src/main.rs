@@ -126,11 +126,12 @@ impl Handler for Server {
                     println!("{} ({}): {:#?}", client.username, client.uuid, &message.data);
                 }
                 
-                self.out.send("received")
+                self.out.send("{message:'received'}")
             }
             Err(msg) => {
                 eprintln!("{msg} ({})", &message.uuid);
-                self.out.send("invaliud auth")
+                self.out.send("{message:'invalid auth'}")
+
             }
         }
     }
