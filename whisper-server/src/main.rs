@@ -1,9 +1,10 @@
-// mod events;
+mod events;
 extern crate env_logger;
 extern crate ws;
 
 use std::collections::HashSet;
 
+use events::{recive_message, send_message};
 use serde::{Deserialize, Serialize};
 use serde_json::{self, json, Value};
 use uuid::Uuid;
@@ -71,8 +72,13 @@ fn is_uuid(s: &str) -> Result<Uuid, String> {
     }
 }
 
-fn match_event(message:&ClientMessage) {
+fn match_event(client:&Client,message:&ClientMessage,out:Sender) {
+    match message.data.event.as_str() {
+        "SEND_MESSAGE" => send_message(client.uuid,message.data.payload.to_owned(),out),
+        // "RECEIVE_MESSAGE" => recive_message(client.uuid,message.data.payload.to_owned()),
 
+        _ => eprintln!("NO EVENT")
+    }
 }
 
 impl Handler for Server {
@@ -116,7 +122,7 @@ impl Handler for Server {
                 if self.uuid_is_client(uuid){
                     let client = self.get_client_from_uuid(uuid);
                     
-                    match_event(&message);
+                    match_event(client,&message,self.out);
                     println!("{} ({}): {:#?}", client.username, client.uuid, &message.data);
                 }
                 
