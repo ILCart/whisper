@@ -125,12 +125,14 @@ impl Handler for Server {
                     match_event(client,&message,self.out.to_owned());
                     println!("{} ({}): {:#?}", client.username, client.uuid, &message.data);
                 }
-                
-                self.out.send("{message:'received'}")
+                let send_out = json!({"uuid":uuid.to_string(),"data":{"event":"STATUS","payload":"204"}});
+
+                self.out.send(send_out.to_string())
             }
             Err(msg) => {
                 eprintln!("{msg} ({})", &message.uuid);
-                self.out.send("{message:'invalid auth'}")
+                let send_out = json!({"uuid":message.uuid.to_string(),"data":{"event":"STATUS","payload":"401"}});
+                self.out.send(send_out.to_string())
 
             }
         }
