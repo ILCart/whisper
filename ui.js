@@ -16,10 +16,14 @@ window.onload = function() {
     };
 
     socket.onmessage = function(event) {
+      let data = JSON.parse(event.data);
       if (uuid == null) {
-        uuid = JSON.parse(event.data).uuid;
+        uuid = data.uuid;
       }
         console.log(event);
+        if (data.uuid !== uuid) {
+          new_message("outside", data.data.payload)
+        }
     };
 
     socket.onclose = function(event) {
