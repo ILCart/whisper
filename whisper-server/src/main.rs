@@ -22,9 +22,15 @@ struct Client {
     username: String,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+struct ClientData {
+    event: String,
+    payload: String
+}
+
 #[derive(Serialize, Deserialize)]
 struct ClientMessage {
-    data: Value,
+    data: ClientData,
     uuid: String,
 }
 
@@ -65,9 +71,9 @@ fn is_uuid(s: &str) -> Result<Uuid, String> {
     }
 }
 
-// fn match_event(message:Value) {
-//     return message.as_array();
-// }
+fn match_event(message:&ClientMessage) {
+
+}
 
 impl Handler for Server {
     fn on_request(&mut self, req: &Request) -> ws_result<Response> {
@@ -109,8 +115,9 @@ impl Handler for Server {
             Ok(uuid) => {
                 if self.uuid_is_client(uuid){
                     let client = self.get_client_from_uuid(uuid);
-                    // match_event(message.data);
-                    println!("{} ({}): {}", client.username, client.uuid, message.data);
+                    
+                    match_event(&message);
+                    println!("{} ({}): {:#?}", client.username, client.uuid, &message.data);
                 }
                 
                 self.out.send("received")
