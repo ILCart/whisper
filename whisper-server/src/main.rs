@@ -122,7 +122,7 @@ impl Handler for Server {
                 if self.uuid_is_client(uuid){
                     let client = self.get_client_from_uuid(uuid);
                     
-                    match_event(client,&message,self.out);
+                    match_event(client,&message,self.out.to_owned());
                     println!("{} ({}): {:#?}", client.username, client.uuid, &message.data);
                 }
                 
