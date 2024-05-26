@@ -3,3 +3,6 @@ whisper-server/target/debug/
 **/*.rs.bk
 *.pdb
 /whisper-server/target
+/whisper-server/target
+/whisper-server/target/debug
+/whisper-server-ssl/target
