@@ -2,9 +2,9 @@ mod events;
 extern crate env_logger;
 extern crate ws;
 
-use std::collections::{hash_set, HashSet};
+use std::collections::HashSet;
 
-use events::{reply_to_message, send_message};
+use events::{reply_to_message, send_message, UserMessage};
 use serde::{Deserialize, Serialize};
 use serde_json::{self, json};
 use uuid::Uuid;
@@ -13,20 +13,12 @@ use ws::{
 };
 
 
-#[derive(Eq, Hash, PartialEq, Debug)]
-struct UserMessage{
-    data:String,
-    user_id:Uuid,
-    message_id:Uuid
-}
-
 struct Server {
     out: Sender,
     clients: HashSet<Client>,
     created_ids: Vec<Uuid>,
-    messages: HashSet<UserMessage>
 }
-#[derive(Eq, Hash, PartialEq)]
+#[derive(Eq, PartialEq, Hash)]
 struct Client {
     uuid: Uuid,
     username: String,
@@ -35,7 +27,7 @@ struct Client {
 #[derive(Serialize, Deserialize, Debug)]
 struct ClientData {
     event: String,
-    reply_uuid: String,
+    message_id: String,
     payload: String
 }
 
@@ -54,14 +46,6 @@ impl Server {
         self.created_ids.push(new_uuid);
         new_uuid
     }
-    fn create_message_uuid(&mut self) -> Uuid{
-        let mut new_uuid = Uuid::new_v4();
-        while self.messages.iter().any(|msg| msg.message_id == new_uuid) {
-            new_uuid = Uuid::new_v4();
-        }
-        self.created_ids.push(new_uuid);
-        new_uuid
-    }
     fn uuid_is_client(&self, uuid: Uuid) -> bool {
         let client_index = self.clients.iter().find(|x| x.uuid == uuid);
         match client_index {
@@ -72,15 +56,6 @@ impl Server {
     fn get_client_from_uuid(&self,s: Uuid) -> &Client {
         self.clients.iter().find(|p| p.uuid == s).expect("Expected Valid UUID (eval before this)")
     }
-    // fn is_uuid_dead(&self,needle: &Uuid) -> bool{
-    //     self.dead_ids.contains(needle)
-    // }
-    // fn kill_uuid(&self,needle: &Uuid){
-    //     match self.ids.contains(needle) {
-    //         true => self.ids.retain(|&x| x != *needle),
-    //         false => ()
-    //     }
-    // }
 }
 
 fn is_uuid(s: &str) -> Result<Uuid, String> {
@@ -92,12 +67,12 @@ fn is_uuid(s: &str) -> Result<Uuid, String> {
 
 fn match_event(client:&Client,message:&ClientMessage,out:Sender) {
     match message.data.event.as_str() {
-        "SEND_MESSAGE" => send_message(client.uuid,message.data.payload.to_owned(),out,),
+        "SEND_MESSAGE" => {
+            let new_message: UserMessage = send_message(client.uuid,message.data.payload.to_owned(),out);
+            println!("new message {:#?}",new_message);
+        },
         "REPLY_MESSAGE" => {
-            match is_uuid(&message.data.reply_uuid)  {
-                Ok(uuid_reply) => reply_to_message(client.uuid,uuid_reply,message.data.payload.to_owned(),out),
-                Err(er) => eprintln!("{er}")
-            }
+            // reply_to_message(client.uuid,uuid_reply,message.data.payload.to_owned(),out)
         }
 
         // "RECEIVE_MESSAGE" => recive_message(client.uuid,message.data.payload.to_owned()),
@@ -138,8 +113,7 @@ impl Handler for Server {
     }
     fn on_message(&mut self, msg: Message) -> ws_result<()> {
         println!("Client sent message: {:#?}", msg);
-        let message: ClientMessage = serde_json::from_str(msg.as_text().expect("Expected text"))
-            .expect("Expected 'uuid' and 'data'");
+        let message: ClientMessage = serde_json::from_str(msg.as_text().expect("Expected text")).expect("Expected 'uuid' and 'data'");
   
         let parsed_uuid = is_uuid(&message.uuid) ;
         match parsed_uuid {
@@ -173,7 +147,6 @@ fn main() {
         out,
         clients: HashSet::new(),
         created_ids: Vec::new(),
-        messages: HashSet::new()
     })
     .unwrap();
 }
