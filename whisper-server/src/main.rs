@@ -2,9 +2,9 @@ mod events;
 extern crate env_logger;
 extern crate ws;
 
-use std::collections::HashSet;
+use std::collections::{hash_set, HashSet};
 
-use events::{send_message};
+use events::{reply_to_message, send_message};
 use serde::{Deserialize, Serialize};
 use serde_json::{self, json};
 use uuid::Uuid;
@@ -12,10 +12,19 @@ use ws::{
     listen, CloseCode, Handler, Handshake, Message, Request, Response, Result as ws_result, Sender,
 };
 
+
+#[derive(Eq, Hash, PartialEq, Debug)]
+struct UserMessage{
+    data:String,
+    user_id:Uuid,
+    message_id:Uuid
+}
+
 struct Server {
     out: Sender,
     clients: HashSet<Client>,
     created_ids: Vec<Uuid>,
+    messages: HashSet<UserMessage>
 }
 #[derive(Eq, Hash, PartialEq)]
 struct Client {
@@ -26,6 +35,7 @@ struct Client {
 #[derive(Serialize, Deserialize, Debug)]
 struct ClientData {
     event: String,
+    reply_uuid: String,
     payload: String
 }
 
@@ -39,6 +49,14 @@ impl Server {
     fn create_uuid(&mut self) -> Uuid {
         let mut new_uuid = Uuid::new_v4();
         while self.created_ids.contains(&new_uuid) {
+            new_uuid = Uuid::new_v4();
+        }
+        self.created_ids.push(new_uuid);
+        new_uuid
+    }
+    fn create_message_uuid(&mut self) -> Uuid{
+        let mut new_uuid = Uuid::new_v4();
+        while self.messages.iter().any(|msg| msg.message_id == new_uuid) {
             new_uuid = Uuid::new_v4();
         }
         self.created_ids.push(new_uuid);
@@ -74,7 +92,14 @@ fn is_uuid(s: &str) -> Result<Uuid, String> {
 
 fn match_event(client:&Client,message:&ClientMessage,out:Sender) {
     match message.data.event.as_str() {
-        "SEND_MESSAGE" => send_message(client.uuid,message.data.payload.to_owned(),out),
+        "SEND_MESSAGE" => send_message(client.uuid,message.data.payload.to_owned(),out,),
+        "REPLY_MESSAGE" => {
+            match is_uuid(&message.data.reply_uuid)  {
+                Ok(uuid_reply) => reply_to_message(client.uuid,uuid_reply,message.data.payload.to_owned(),out),
+                Err(er) => eprintln!("{er}")
+            }
+        }
+
         // "RECEIVE_MESSAGE" => recive_message(client.uuid,message.data.payload.to_owned()),
 
         _ => eprintln!("NO EVENT")
@@ -148,6 +173,7 @@ fn main() {
         out,
         clients: HashSet::new(),
         created_ids: Vec::new(),
+        messages: HashSet::new()
     })
     .unwrap();
 }
