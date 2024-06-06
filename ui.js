@@ -37,7 +37,7 @@ window.onload = function () {
 
     new_message("self", message);
 
-    let data = { "uuid": uuid, "data": { "event": "SEND_MESSAGE", "payload": message } };
+    let data = { "uuid": uuid, "data": { "event": "SEND_MESSAGE", "payload": message, "message_id" : "" } };
 
     console.log("sent:\n", data);
 

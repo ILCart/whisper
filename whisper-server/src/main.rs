@@ -4,7 +4,7 @@ extern crate ws;
 
 use std::collections::HashSet;
 
-use events::{reply_to_message, send_message, UserMessage};
+use events::{send_message, UserMessage};
 use serde::{Deserialize, Serialize};
 use serde_json::{self, json};
 use uuid::Uuid;
@@ -22,6 +22,7 @@ struct Server {
 struct Client {
     uuid: Uuid,
     username: String,
+    messages: Vec<UserMessage>
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -71,9 +72,9 @@ fn match_event(client:&Client,message:&ClientMessage,out:Sender) {
             let new_message: UserMessage = send_message(client.uuid,message.data.payload.to_owned(),out);
             println!("new message {:#?}",new_message);
         },
-        "REPLY_MESSAGE" => {
-            // reply_to_message(client.uuid,uuid_reply,message.data.payload.to_owned(),out)
-        }
+        // "REPLY_MESSAGE" => {
+        //     // reply_to_message(client.uuid,uuid_reply,message.data.payload.to_owned(),out)
+        // }
 
         // "RECEIVE_MESSAGE" => recive_message(client.uuid,message.data.payload.to_owned()),
 
@@ -95,6 +96,7 @@ impl Handler for Server {
         let connected_client: Client = Client {
             uuid: id,
             username: "Test".to_owned(),
+            messages: Vec::new()
         };
         self.clients.insert(connected_client);
         println!(
@@ -149,4 +151,5 @@ fn main() {
         created_ids: Vec::new(),
     })
     .unwrap();
+    println!("Whisper Server Started on port {port}");
 }
